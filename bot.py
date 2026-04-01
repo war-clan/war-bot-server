@@ -1,7 +1,7 @@
 import telebot
 import time
 
-# التوكن الخاص بيك
+# التوكن مالتك
 TOKEN = '8505607439:AAEw3-Ci_4yWATze9pfRnzr75ASq4bFpRoE'
 bot = telebot.TeleBot(TOKEN)
 
@@ -31,24 +31,20 @@ def send_links(message):
     )
     bot.send_message(message.chat.id, links, parse_mode='Markdown')
 
-# أمر كلان WAR
+# الأوامر الباقية
 @bot.message_handler(commands=['war'])
 def war_info(message):
-    bot.reply_to(message, "🦅 **WAR CLAN - Delta Force**\n\nنحن لا ننهزم، نحن ننتصر أو نتعلم. انضم إلينا في السيرفر وكن جزءاً من الأساطير!")
+    bot.reply_to(message, "🦅 **WAR CLAN - Delta Force**\n\nنحن لا ننهزم، نحن ننتصر أو نتعلم!")
 
-# أمر الهكر (للمزح)
 @bot.message_handler(commands=['hack'])
 def simulate_hack(message):
     msg = bot.reply_to(message, "⚙️ جاري الاتصال بالسيرفر المشفر...")
     time.sleep(1)
-    bot.edit_message_text("🛡️ جاري فحص الثغرات الأمنية...", message.chat.id, msg.message_id)
-    time.sleep(1)
     bot.edit_message_text("✅ تم الفحص: نظامك محمي بواسطة بروتوكولات WAR || ETH!", message.chat.id, msg.message_id)
 
-# أمر برشلونة
 @bot.message_handler(commands=['barca'])
 def barca_fans(message):
-    bot.reply_to(message, "🔵🔴 **Visca el Barça!**\nفخر كاتالونيا وفخر وارة الأعرجي. ميسكي ان بلوس! ⚽")
+    bot.reply_to(message, "🔵🔴 **Visca el Barça!** ⚽")
 
 # تشغيل البوت
 print("البوت شغال هسة يا وحش...")
