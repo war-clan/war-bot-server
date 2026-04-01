@@ -1,7 +1,27 @@
 import telebot
 import time
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-# التوكن مالتك
+# --- هذا الجزء الخفي حتى نخدع سيرفر Hugging Face وما يطفي البوت ---
+class DummyHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/plain')
+        self.end_headers()
+        self.wfile.write(b"WAR BOT IS ALIVE!")
+
+def run_dummy_server():
+    server_address = ('0.0.0.0', 7860)
+    httpd = HTTPServer(server_address, DummyHandler)
+    httpd.serve_forever()
+
+keep_alive_thread = threading.Thread(target=run_dummy_server)
+keep_alive_thread.daemon = True
+keep_alive_thread.start()
+# ------------------------------------------------------------------
+
+# التوكن الخاص بيك
 TOKEN = '8505607439:AAEw3-Ci_4yWATze9pfRnzr75ASq4bFpRoE'
 bot = telebot.TeleBot(TOKEN)
 
@@ -31,17 +51,19 @@ def send_links(message):
     )
     bot.send_message(message.chat.id, links, parse_mode='Markdown')
 
-# الأوامر الباقية
+# أمر كلان WAR
 @bot.message_handler(commands=['war'])
 def war_info(message):
     bot.reply_to(message, "🦅 **WAR CLAN - Delta Force**\n\nنحن لا ننهزم، نحن ننتصر أو نتعلم!")
 
+# أمر الهكر (للمزح)
 @bot.message_handler(commands=['hack'])
 def simulate_hack(message):
     msg = bot.reply_to(message, "⚙️ جاري الاتصال بالسيرفر المشفر...")
     time.sleep(1)
     bot.edit_message_text("✅ تم الفحص: نظامك محمي بواسطة بروتوكولات WAR || ETH!", message.chat.id, msg.message_id)
 
+# أمر برشلونة
 @bot.message_handler(commands=['barca'])
 def barca_fans(message):
     bot.reply_to(message, "🔵🔴 **Visca el Barça!** ⚽")
